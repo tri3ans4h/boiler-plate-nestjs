@@ -1,4 +1,5 @@
 ## Boilerplate
+This is starter boilerplate use nestjs.
 ### Metode digunakan
 - Prisma
 - Swagger
