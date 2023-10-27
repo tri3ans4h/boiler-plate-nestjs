@@ -88,7 +88,7 @@ npm run start:prod
 or  
 npm run build && npm run start  
 
-## Authorize Strategy
+## Authenticate 
 
 curl -X 'POST' \
   'http://localhost:3001/auth/login' \
@@ -105,8 +105,28 @@ accessToken : ....
 refreshToken : ....
 }
 
-auth/me
 
+
+
+## Authorize 
+
+
+
+## Validating
+GET auth/me  
+Header  
+Cookie refresh='.....'  
+Response Status 
+- 200 
+
+
+## Refresh Access Token
+GET auth/refresh-token
+Header
+Cookie refresh='.....'
+Response Status
+- 200 OK
+- 404  
 
 
 
