@@ -45,3 +45,12 @@ or
 
 # MINIO
 minio server data-minio
+
+
+# package.json
+For Window
+{
+....
+    "start:dev": "SET NODE_ENV=development nest start --watch",
+...
+}
