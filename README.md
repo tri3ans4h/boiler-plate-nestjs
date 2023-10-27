@@ -43,8 +43,14 @@ or
 
 
 
-# MINIO
+# MINIO CONFIGURATION
 minio server data-minio
+FOR WINDOW
+PS> Invoke-WebRequest -Uri "https://dl.min.io/server/minio/release/windows-amd64/minio.exe" -OutFile "D:\minio.exe"
+PS> setx MINIO_ROOT_USER minioadmin
+PS> setx MINIO_ROOT_PASSWORD minioadmin
+PS> D:\minio.exe server D:\minio-data --console-address ":9001"
+
 
 # INSTALATION
 1. git clone
