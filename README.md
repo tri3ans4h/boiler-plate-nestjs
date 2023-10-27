@@ -10,22 +10,6 @@ This is starter boilerplate use nestjs.
 - Minio
 
 
-# DOCUMENTATIONS
-## How run  
-### dev
-npm run start:dev  
-
-### build
-npm run build  
-### start prod
-npm run start:prod  
-or  
-npm run build && npm run start  
-
-
-
-## Create Resource
-nest g resource stories --no-spec  
 
 ## example Config
 ### .env 
@@ -81,7 +65,23 @@ PS> D:\minio.exe server D:\minio-data --console-address ":9001"
 # API DOC
 open http://localhost:3001/api
 
+# OTHERS
+## DOCUMENTATION
+## How run  
+### dev
+npm run start:dev  
 
+### build
+npm run build  
+### start prod
+npm run start:prod  
+or  
+npm run build && npm run start  
+
+
+
+## Create Resource
+nest g resource stories --no-spec  
 
 # LICENSE
 The source code for the site is licensed under the MIT license, which you can find in the MIT-LICENSE.txt file.
