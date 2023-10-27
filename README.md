@@ -26,17 +26,19 @@ nest g resource stories --no-spec
 
 ## example Config
 ### .env 
+```
 DATABASE_URL="postgresql://postgres:mypassword@localhost:5432/prismadb-auth?schema=public&connection_limit=5"  
 JWT_ACCESS_SECRET = 'HgYdLksz3WMSgWh0CF31z9daZuxK10SK7n94ER9ZtPGRTfCYQO/c/B+jHFVkTp0jmw5ffYktfF97iSF1IidW5w=='  
 JWT_ACCESS_EXPIRES_IN = '1h'  
 JWT_REFRESH_SECRET = 'b0Sc5QyQVdC3CQkQsuwGjb8ak9xlKG2qIQJvRBV9RJrO43KsDQ7sruXPW3XWpuMtM+vzG18DXtsPt6LLfJcPIw=='  
-JWT_REFRESH_EXPIRES_IN = '1h'  
+JWT_REFRESH_EXPIRES_IN = '1h'
 
 MINIO_ENDPOINT='localhost'  
 MINIO_PORT=9000  
 MINIO_ACCESS_KEY=VzoWvEak63bu5IxbGchv  
 MINIO_SECRET_KEY=V5osh50X1vaDNTi5w6YStZ7rxNwE3WFIAoYh7auo  
-MINIO_BUCKET_NAME='sample'  
+MINIO_BUCKET_NAME='sample'
+```
 
 ## migrate
 npx prisma migrate dev --name init && npx prisma generate && npm run start:dev
