@@ -26,7 +26,7 @@ nest g resource stories --no-spec
 
 ## example Config
 ### .env 
-DATABASE_URL="postgresql://postgres:apri180488@localhost:5432/prismadb-auth-02?schema=public&connection_limit=5"  
+DATABASE_URL="postgresql://postgres:mypassword@localhost:5432/prismadb-auth?schema=public&connection_limit=5"  
 JWT_ACCESS_SECRET = 'HgYdLksz3WMSgWh0CF31z9daZuxK10SK7n94ER9ZtPGRTfCYQO/c/B+jHFVkTp0jmw5ffYktfF97iSF1IidW5w=='  
 JWT_ACCESS_EXPIRES_IN = '1h'  
 JWT_REFRESH_SECRET = 'b0Sc5QyQVdC3CQkQsuwGjb8ak9xlKG2qIQJvRBV9RJrO43KsDQ7sruXPW3XWpuMtM+vzG18DXtsPt6LLfJcPIw=='  
