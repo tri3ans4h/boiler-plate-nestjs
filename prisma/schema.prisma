@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  id         Int          @id @default(autoincrement())
+  name       String       @db.VarChar
+  created_at DateTime     @default(now())
+  updated_at DateTime?    @updatedAt
+  deleted_at DateTime?    @db.Timestamp(6)
+  Permission Permission[]
+  User       User[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id         Int       @id @default(autoincrement())
+  role_id    Int
+  action     String    @db.VarChar
+  subject    String    @db.VarChar
+  inverted   Boolean   @default(false)
+  conditions Json?
+  reason     String?
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
+  deleted_at DateTime? @db.Timestamp(6)
+  role       Role      @relation(fields: [role_id], references: [id])
+
+  @@map("permissions")
+}
+
+model User {
+  id         Int            @id @default(autoincrement())
+  first_name String         @db.VarChar(100)
+  last_name  String?        @db.VarChar(100)
+  email      String         @unique @db.VarChar(255)
+  password   String         @db.VarChar(255)
+  photo      String?         @db.VarChar(255)
+  role_id    Int
+  org_id     Int?
+  Story      Story[]
+  org        Organizations? @relation(fields: [org_id], references: [id])
+  role       Role           @relation(fields: [role_id], references: [id])
+  UserTokens UserTokens[]
+
+  @@map("users")
+}
+
+model UserTokens {
+  id        Int    @id @default(autoincrement())
+  user_id   Int    @map("user_id")
+  access    String @db.VarChar(255)
+  refresh   String @db.VarChar(255)
+  userAgent String @map("user_agent") @db.Text
+
+  deviceUniqueID String
+
+  uaDeviceType   String @default("") @map("ua_device_type") @db.VarChar(255)
+  uaDeviceVendor String @default("") @map("ua_device_vendor") @db.VarChar(255)
+  uaDeviceModel  String @default("") @map("ua_device_model") @db.VarChar(255)
+
+  uaOSName    String @default("") @map("ua_os_name") @db.VarChar(255)
+  uaOSVersion String @default("") @map("ua_os_version") @db.VarChar(255)
+
+  uaBrowserName    String @default("") @map("ua_browser_name") @db.VarChar(255)
+  uaBrowserVersion String @default("") @map("ua_browser_version") @db.VarChar(255)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  user       User     @relation(fields: [user_id], references: [id])
+
+  //@@unique([username, email])
+  @@map("user_tokens")
+}
+
+model Organizations {
+  id    Int     @id @default(autoincrement())
+  name  String  @db.VarChar(100)
+  User  User[]
+  Story Story[]
+
+  @@map("organizations")
+}
+
+model Story {
+  id           Int    @id @default(autoincrement())
+  name         String @db.VarChar
+  created_by   Int?
+  created_user User?  @relation(fields: [created_by], references: [id])
+
+  org_id       Int?
+  organization Organizations? @relation(fields: [org_id], references: [id])
+
+  @@map("stories")
+}
