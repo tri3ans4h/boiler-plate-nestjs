@@ -44,8 +44,12 @@ or
 
 
 # MINIO CONFIGURATION
+DOWNLOAD : https://min.io/download  
+FOR MAC  
+## how to run 
 minio server data-minio  
 FOR WINDOW  
+## instalation & how to run  
 PS> Invoke-WebRequest -Uri "https://dl.min.io/server/minio/release/windows-amd64/minio.exe" -OutFile "D:\minio.exe"  
 PS> setx MINIO_ROOT_USER minioadmin  
 PS> setx MINIO_ROOT_PASSWORD minioadmin  
