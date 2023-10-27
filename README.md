@@ -64,7 +64,7 @@ PS> setx MINIO_ROOT_PASSWORD minioadmin
 PS> D:\minio.exe server D:\minio-data --console-address ":9001"  
 ```
 
-# INSTALATION
+# INSTALLATION
 1. git clone
 2. cd boiler-plate-nestjs
 3. npm install
@@ -74,6 +74,9 @@ PS> D:\minio.exe server D:\minio-data --console-address ":9001"
 7. create bucket "sample"
 8. npx prisma migrate dev --name init && npx prisma generate && npm run start:dev
 
+
+# API DOC
+open http://localhost:3001/api
 
 
 
