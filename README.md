@@ -10,8 +10,7 @@ This is starter boilerplate use nestjs.
 - Minio
 
 
-
-## example Config
+## SETUP PREPARATION
 ### .env 
 ```
 DATABASE_URL="postgresql://postgres:mypassword@localhost:5432/prismadb-auth?schema=public&connection_limit=5"  
@@ -27,6 +26,21 @@ MINIO_SECRET_KEY=V5osh50X1vaDNTi5w6YStZ7rxNwE3WFIAoYh7auo
 MINIO_BUCKET_NAME='sample'
 ```
 
+### MINIO CONFIGURATION
+DOWNLOAD : https://min.io/download  
+## mac/linux instalation & how to run 
+minio server data-minio  
+## windows instalation & how to run  
+```
+PS> Invoke-WebRequest -Uri "https://dl.min.io/server/minio/release/windows-amd64/minio.exe" -OutFile "D:\minio.exe"  
+PS> setx MINIO_ROOT_USER minioadmin  
+PS> setx MINIO_ROOT_PASSWORD minioadmin  
+PS> D:\minio.exe server D:\minio-data --console-address ":9001"  
+```
+
+
+
+
 ## migrate
 npx prisma migrate dev --name init && npx prisma generate && npm run start:dev
 
@@ -38,18 +52,6 @@ or
 4. npx prisma migrate dev --name revision-02
 
 
-
-# MINIO CONFIGURATION
-DOWNLOAD : https://min.io/download  
-## mac/linux instalation & how to run 
-minio server data-minio  
-## windows instalation & how to run  
-```
-PS> Invoke-WebRequest -Uri "https://dl.min.io/server/minio/release/windows-amd64/minio.exe" -OutFile "D:\minio.exe"  
-PS> setx MINIO_ROOT_USER minioadmin  
-PS> setx MINIO_ROOT_PASSWORD minioadmin  
-PS> D:\minio.exe server D:\minio-data --console-address ":9001"  
-```
 
 # INSTALLATION
 1. git clone
