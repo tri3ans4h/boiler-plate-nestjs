@@ -1,0 +1,1 @@
+collection type and interface
