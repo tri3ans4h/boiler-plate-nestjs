@@ -89,21 +89,8 @@ or
 npm run build && npm run start  
 
 ## Authenticate 
-
-curl -X 'POST' \
-  'http://localhost:3001/auth/login' \
-  -H 'accept: */*' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  "username": "admin01@mail.com",
-  "password": "123456"
-}'
-
-<-------------------------------
-{
-accessToken : ....
-refreshToken : ....
-}
+POST auth/login
+Body { "username":"", "password":""}
 
 
 
@@ -120,12 +107,12 @@ Response Status
 - 200 
 
 
-## Refresh Access Token
-GET auth/refresh-token
-Header
+## Refresh Access Token  
+GET auth/refresh-token  
+Header  
 Cookie refresh='.....'
-Response Status
-- 200 OK
+Response Status  
+- 200 OK  
 - 404  
 
 
