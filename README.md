@@ -67,6 +67,14 @@ or
 # API DOC
 open http://localhost:3001/api
 
+# LICENSE
+The source code for the site is licensed under the MIT license, which you can find in the MIT-LICENSE.txt file.
+
+All graphical assets are licensed under the [Creative Commons Attributio](https://creativecommons.org/licenses/by/4.0/) Unported License.
+
+# DISCLAMER
+This software not support production ready yet, use with your own risk !.  
+
 # OTHERS
 ## DOCUMENTATION
 ## How run  
@@ -85,10 +93,7 @@ npm run build && npm run start
 ## Create Resource
 nest g resource stories --no-spec  
 
-# LICENSE
-The source code for the site is licensed under the MIT license, which you can find in the MIT-LICENSE.txt file.
 
-All graphical assets are licensed under the [Creative Commons Attributio](https://creativecommons.org/licenses/by/4.0/) Unported License.
 
 
 
