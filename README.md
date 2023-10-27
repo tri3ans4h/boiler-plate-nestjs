@@ -92,9 +92,6 @@ npm run build && npm run start
 POST auth/login
 Body { "username":"", "password":""}
 
-
-
-
 ## Authorize 
 
 
@@ -104,7 +101,7 @@ GET auth/me
 Header  
 Cookie refresh='.....'  
 Response Status 
-- 200 
+- 200 OK
 
 
 ## Refresh Access Token  
