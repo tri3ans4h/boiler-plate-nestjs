@@ -1,0 +1,12 @@
+GET http://localhost:3001/minio/presignedUrl?name=hello.pdf HTTP/1.1
+
+
+###
+
+GET http://localhost:3001/minio/presignedGetObject?name=openai.png HTTP/1.1
+
+
+
+###
+
+
