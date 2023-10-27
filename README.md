@@ -46,11 +46,15 @@ or
 # MINIO
 minio server data-minio
 
+# INSTALATION
+1. git clone
+2. cd boiler-plate-nestjs
+3. npm install
+4. don't forget config .env
+5. FOR WINDOW running command : npm install -g win-node-env 
+6. npx prisma migrate dev --name init && npx prisma generate && npm run start:dev
 
-# package.json
-For Window
-{
-....
-    "start:dev": "SET NODE_ENV=development nest start --watch",
-...
-}
+
+
+
+
