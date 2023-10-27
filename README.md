@@ -66,8 +66,10 @@ PS> D:\minio.exe server D:\minio-data --console-address ":9001"
 2. cd boiler-plate-nestjs
 3. npm install
 4. don't forget config .env
-5. FOR WINDOW running command : npm install -g win-node-env 
-6. npx prisma migrate dev --name init && npx prisma generate && npm run start:dev
+5. FOR WINDOW running command : npm install -g win-node-env
+6. running minio server
+7. create bucket "sample"
+8. npx prisma migrate dev --name init && npx prisma generate && npm run start:dev
 
 
 
