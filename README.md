@@ -88,6 +88,28 @@ npm run start:prod
 or  
 npm run build && npm run start  
 
+## Authorize Strategy
+
+curl -X 'POST' \
+  'http://localhost:3001/auth/login' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "username": "admin01@mail.com",
+  "password": "123456"
+}'
+
+<-------------------------------
+{
+accessToken : ....
+refreshToken : ....
+}
+
+auth/me
+
+
+
+
 
 
 ## Create Resource
