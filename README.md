@@ -1,12 +1,14 @@
 ## Boilerplate
 This is starter boilerplate use nestjs.
-### Metode digunakan
-- Prisma
+
+
+## Dependency
+- Prisma ORM
 - Swagger
-- Authentication
-  - Use Jwt
-- Authorization
-  - Use Casl
+- JWT
+- CASL
+- Minio
+
 
 
 ## How run  
