@@ -2,6 +2,18 @@ import { PrismaClient, Story, Permission, Prisma } from "@prisma/client";
 import { cloneDeep } from "lodash";
 
 import * as bcrypt from 'bcrypt';
+import { LoremIpsum } from "lorem-ipsum";
+
+const lorem = new LoremIpsum({
+  sentencesPerParagraph: {
+    max: 8,
+    min: 4
+  },
+  wordsPerSentence: {
+    max: 16,
+    min: 4
+  }
+});
 
 export const roles = [
   {
@@ -216,6 +228,10 @@ export const organizations = [
   {
     id: 2,
     name: 'Org 02',
+  },
+  {
+    id: 3,
+    name: 'Org 03',
   }
 ];
 
@@ -224,34 +240,105 @@ export const organizations = [
 export const stories: Story[] = [
   {
     id: 1,
-    name: 'Super Admin Story 01',
-    created_by: 1,
+    title: lorem.generateWords(),
+    content: lorem.generateSentences(),
+    user_id: 1,
     org_id: null
   },
   {
     id: 2,
-    name: 'Admin 01 Story 01',
-    created_by: 2,
+    title: lorem.generateWords(),
+    content: lorem.generateSentences(),
+    user_id: 2,
     org_id: 1
   },
 
   {
     id: 3,
-    name: 'Admin 01 Story 02',
-    created_by: 2,
+    title: lorem.generateWords(),
+    content: lorem.generateSentences(),
+    user_id: 2,
     org_id: 1
   },
   {
     id: 4,
-    name: 'Admin 02 Story 01',
-    created_by: 3,
+    title: lorem.generateWords(),
+    content: lorem.generateSentences(),
+    user_id: 3,
     org_id: 2
   },
   {
     id: 5,
-    name: 'Admin 02 Story 02',
-    created_by: 3,
+    title: lorem.generateWords(),
+    content: lorem.generateSentences(),
+    user_id: 3,
     org_id: 2
+  },
+  {
+    id: 6,
+    title: lorem.generateWords(),
+    content: lorem.generateSentences(),
+    user_id: 2,
+    org_id: 1
+  },
+  {
+    id: 7,
+    title: lorem.generateWords(),
+    content: lorem.generateSentences(),
+    user_id: 2,
+    org_id: 1
+  },
+
+  {
+    id: 8,
+    title: lorem.generateWords(),
+    content: lorem.generateSentences(5),
+    user_id: 2,
+    org_id: 1
+  },
+  {
+    id: 9,
+    title: lorem.generateWords(),
+    content: lorem.generateSentences(),
+    user_id: 2,
+    org_id: 1
+  },
+  {
+    id: 10,
+    title: lorem.generateWords(),
+    content: lorem.generateSentences(),
+    user_id: 2,
+    org_id: 1
+  },
+
+  {
+    id: 11,
+    title: lorem.generateWords(),
+    content: lorem.generateSentences(),
+    user_id: 2,
+    org_id: 1
+  },
+
+  {
+    id: 12,
+    title: lorem.generateWords(),
+    content: lorem.generateSentences(),
+    user_id: 2,
+    org_id: 1
+  },
+  {
+    id: 13,
+    title: lorem.generateWords(),
+    content: lorem.generateSentences(),
+    user_id: 2,
+    org_id: 1
+  },
+  {
+    id: 14,
+    title: lorem.generateWords(),
+    content: lorem.generateSentences(),
+    user_id: 2,
+    org_id: 1
   }
 ];
 const prisma = new PrismaClient();
@@ -340,11 +427,6 @@ async function main() {
     });
     await prisma.$queryRaw`SELECT nextval('stories_id_seq');`;
   }
-
-
-
-
-
 }
 
 main()

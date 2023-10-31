@@ -36,47 +36,78 @@ model Permission {
 }
 
 model User {
-  id         Int            @id @default(autoincrement())
-  first_name String         @db.VarChar(100)
-  last_name  String?        @db.VarChar(100)
-  email      String         @unique @db.VarChar(255)
-  password   String         @db.VarChar(255)
-  photo      String?         @db.VarChar(255)
-  role_id    Int
-  org_id     Int?
-  Story      Story[]
-  org        Organizations? @relation(fields: [org_id], references: [id])
-  role       Role           @relation(fields: [role_id], references: [id])
-  UserTokens UserTokens[]
+  id           Int            @id @default(autoincrement())
+  first_name   String         @db.VarChar(100)
+  last_name    String?        @db.VarChar(100)
+  email        String         @unique @db.VarChar(255)
+  password     String         @db.VarChar(255)
+  photo        String?        @db.VarChar(255)
+  birthDate    DateTime?      @map("birth_date")
+  address      String?        @db.VarChar(255)
+  phone        String?        @db.VarChar(255)
+  role_id      Int
+  org_id       Int?
+  Story        Story[]
+  org          Organizations? @relation(fields: [org_id], references: [id])
+  role         Role           @relation(fields: [role_id], references: [id])
+  UserTokens   UserTokens[]
+  UserProfile  UserProfile?
+  UserActivity UserActivity[]
 
   @@map("users")
 }
 
+//User x User Profile  = 1 : 1
+model UserProfile {
+  id         Int       @id @default(autoincrement())
+  user_id    Int       @unique @map("user_id")
+  email      String    @unique @db.VarChar(255)
+  firstName  String?   @map("first_name") @db.VarChar(100)
+  lastName   String?   @map("last_name") @db.VarChar(100)
+  photo      String?   @db.VarChar(255)
+  birthDate  DateTime? @map("birth_date")
+  address    String?   @db.VarChar(255)
+  phone      String?   @db.VarChar(255)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  user       User      @relation(fields: [user_id], references: [id])
+
+  @@map("users_profile")
+}
+
 model UserTokens {
-  id        Int    @id @default(autoincrement())
-  user_id   Int    @map("user_id")
-  access    String @db.VarChar(255)
-  refresh   String @db.VarChar(255)
-  userAgent String @map("user_agent") @db.Text
-
-  deviceUniqueID String
-
-  uaDeviceType   String @default("") @map("ua_device_type") @db.VarChar(255)
-  uaDeviceVendor String @default("") @map("ua_device_vendor") @db.VarChar(255)
-  uaDeviceModel  String @default("") @map("ua_device_model") @db.VarChar(255)
-
-  uaOSName    String @default("") @map("ua_os_name") @db.VarChar(255)
-  uaOSVersion String @default("") @map("ua_os_version") @db.VarChar(255)
-
-  uaBrowserName    String @default("") @map("ua_browser_name") @db.VarChar(255)
-  uaBrowserVersion String @default("") @map("ua_browser_version") @db.VarChar(255)
-
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  user       User     @relation(fields: [user_id], references: [id])
+  id               Int      @id @default(autoincrement())
+  user_id          Int      @map("user_id")
+  access           String   @db.VarChar(255)
+  refresh          String   @db.VarChar(255)
+  userAgent        String   @map("user_agent") @db.Text
+  deviceUniqueID   String
+  uaDeviceType     String   @default("") @map("ua_device_type") @db.VarChar(255)
+  uaDeviceVendor   String   @default("") @map("ua_device_vendor") @db.VarChar(255)
+  uaDeviceModel    String   @default("") @map("ua_device_model") @db.VarChar(255)
+  uaOSName         String   @default("") @map("ua_os_name") @db.VarChar(255)
+  uaOSVersion      String   @default("") @map("ua_os_version") @db.VarChar(255)
+  uaBrowserName    String   @default("") @map("ua_browser_name") @db.VarChar(255)
+  uaBrowserVersion String   @default("") @map("ua_browser_version") @db.VarChar(255)
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+  user             User     @relation(fields: [user_id], references: [id])
 
   //@@unique([username, email])
   @@map("user_tokens")
+}
+
+model UserActivity {
+  id             Int      @id @default(autoincrement())
+  user_id        Int      @map("user_id")
+  deviceUniqueID String
+  activity       String   @db.Text
+  userAgent      String?  @map("user_agent") @db.Text
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+  user           User     @relation(fields: [user_id], references: [id])
+
+  @@map("user_activity")
 }
 
 model Organizations {
@@ -89,12 +120,12 @@ model Organizations {
 }
 
 model Story {
-  id           Int    @id @default(autoincrement())
-  name         String @db.VarChar
-  created_by   Int?
-  created_user User?  @relation(fields: [created_by], references: [id])
-
+  id           Int            @id @default(autoincrement())
+  title        String         @db.VarChar
+  content      String         @db.Text
+  user_id      Int?
   org_id       Int?
+  user         User?          @relation(fields: [user_id], references: [id])
   organization Organizations? @relation(fields: [org_id], references: [id])
 
   @@map("stories")
