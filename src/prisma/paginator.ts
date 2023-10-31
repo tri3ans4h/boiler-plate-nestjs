@@ -1,3 +1,5 @@
+import { take } from "rxjs"
+
 export interface PaginatedResult<T> {
     data: T[]
     meta: {
@@ -20,18 +22,20 @@ export const paginator = (defaultOptions: PaginateOptions): PaginateFunction => 
     // take
     // skip
     return async (model, args: any = { where: undefined }, options) => {
-      
         const page = Number(options?.page || defaultOptions?.page) || 1;
         const perPage = Number(options?.perPage || defaultOptions?.perPage) || 10;
         const skip = Number(options?.skip || defaultOptions?.skip) || (page > 0 ? perPage * (page - 1) : 0);
+
         const [total, data] = await Promise.all([
             model.count({ where: args.where }),
             model.findMany({
                 ...args,
                 take: perPage,
-                skip,
+                skip:skip,
             }),
         ]);
+       // console.log(page ,perPage ,perPage * (page - 1),skip)
+        //console.log(JSON.stringify(args.where))
         const lastPage = Math.ceil(total / perPage);
        
         return {

@@ -28,6 +28,7 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
     private errorCodesStatusMapping: ErrorCodesStatusMapping = {
         P2000: HttpStatus.BAD_REQUEST,
         P2002: HttpStatus.CONFLICT,
+        P2003: HttpStatus.BAD_REQUEST,
         P2005: HttpStatus.BAD_REQUEST,
         P2006: HttpStatus.BAD_REQUEST,
         P2025: HttpStatus.NOT_FOUND,
@@ -57,15 +58,13 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
      * @returns
      */
     catch(
-        exception: Prisma.PrismaClientKnownRequestError | any, // | Prisma.PrismaClientValidationError 
+        exception: Prisma.PrismaClientKnownRequestError | Prisma.PrismaClientValidationError | any, // | Prisma.PrismaClientValidationError 
         host: ArgumentsHost,
     ) {
         if (exception instanceof Prisma.PrismaClientKnownRequestError) {
             return this.catchClientKnownRequestError(exception, host);
         }
         if (exception instanceof Prisma.PrismaClientValidationError) {
-
-            console.log(exception.message)
             return this.catchClientValidationError(exception, host);
         }
     }

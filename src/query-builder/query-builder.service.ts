@@ -24,16 +24,12 @@ export class QueryBuilderService {
       .query(primaryKey, depth)
       .then(async (query) => {
         if (where) query.where = mergeWhere ? { ...query.where, ...where } : where;
-
         const count = await this.prisma[model].count({ where: query.where });
-
         this.request.res.setHeader('count', count);
-
         if (justPaginate) {
           delete query.include;
           delete query.select;
         }
-
         return { ...query }
       })
       .catch((err) => {
