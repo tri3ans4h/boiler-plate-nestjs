@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus, Query, Put, Req, Sse } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserFromTokenPipe } from './users.pipe';
 import { UserEntity } from './entities/user.entity';
 import { AbilitiesFactory } from 'src/casl/abilities.factory';
@@ -17,8 +17,49 @@ import { QueryBuilderService } from 'src/query-builder/query-builder.service';
 import { interval, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { IsNumber, IsString, IsOptional, IsDate } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
 
 
+
+export class UserProfileDtoInput {
+  @IsNumber()
+  user_id: number
+  @IsString()
+  @IsOptional()
+  email?: string
+  @IsString()
+  @IsOptional()
+  firstName?: string
+  @IsString()
+  @IsOptional()
+  lastName?: string
+
+  @IsString()
+  @IsOptional()
+  address?: string
+
+  @IsDate()
+  @IsOptional()
+  @Type(() => Date)
+  birthDate?: Date
+}
+
+
+export class UserProfileDtoOutput {
+  @IsString()
+  id: string
+}
+
+
+export class ChangePasswordDtoInput {
+  @IsString()
+  currentPassword: string
+  @IsString()
+  newPassword: string
+  @IsString()
+  verNewPassword: string
+}
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
@@ -40,6 +81,7 @@ export class UsersController {
     return response.status(HttpStatus.OK).json(result)
   }
 
+  @ApiBearerAuth()
   @Get()
   async findManyWithPage(
     @Res() response: Response,
@@ -52,17 +94,18 @@ export class UsersController {
     return response.status(HttpStatus.OK).json(result)
   }
 
+  @ApiBearerAuth()
   @Get('profile')
   async profile(
     @Res() response: Response,
     @AuthenticationToken(UserFromTokenPipe) currentUser: UserEntity
   ): Promise<any> {
-    const result = await this.usersService.profile(currentUser);
+    const result = await this.usersService.profile(currentUser)
     return response.status(HttpStatus.OK).json(result)
   }
 
 
-
+  @ApiBearerAuth()
   @Put('change-photo')
   async changePhoto(
     @Req() request: Request,
@@ -70,12 +113,12 @@ export class UsersController {
     @Body() data: UpdateUserDto,
     @AuthenticationToken(UserFromTokenPipe) currentUser: UserEntity
   ): Promise<any> {
-    const result = await this.usersService.changePhoto(request , data, currentUser);
+    const result = await this.usersService.changePhoto(request, data, currentUser);
     return response.status(HttpStatus.OK).json(result)
   }
 
 
-
+  @ApiBearerAuth()
   @Get('active-device')
   async activeDevice(
     @Req() request: Request,
@@ -86,6 +129,7 @@ export class UsersController {
     return response.status(HttpStatus.OK).json(result)
   }
 
+  @ApiBearerAuth()
   @Get('active-device-summary')
   async activeDeviceSummary(
     @Req() request: Request,
@@ -96,6 +140,7 @@ export class UsersController {
     return response.status(HttpStatus.OK).json(result)
   }
 
+  @ApiBearerAuth()
   @Post('active-device-osname')
   async activeDeviceOSName(
     @Req() request: Request,
@@ -107,7 +152,7 @@ export class UsersController {
     return response.status(HttpStatus.OK).json(result)
   }
 
-
+  @ApiBearerAuth()
   @Post('active-device-info')
   async activeDeviceInfo(
     @Req() request: Request,
@@ -119,6 +164,7 @@ export class UsersController {
     return response.status(HttpStatus.OK).json(result)
   }
 
+  @ApiBearerAuth()
   @Post('remove-device')
   async removeDevice(
     @Req() request: Request,
@@ -294,6 +340,25 @@ export class UsersController {
     return response.status(HttpStatus.OK).json(result)
   }
 
+
+
+  @Patch('change-password')
+  async changePassword(
+    @Req() request :Request,
+    @Body() data: ChangePasswordDtoInput,
+    @AuthenticationToken(UserFromTokenPipe) currentUser: UserEntity) {
+    return this.usersService.changePassword(request, data, currentUser);
+  }
+
+  @Patch(':id/profile')
+  async updateProfile(
+    @Param('id') id: string,
+    @Body() data: UserProfileDtoInput,
+    @AuthenticationToken(UserFromTokenPipe) currentUser: UserEntity) {
+    return this.usersService.changeProfile(+id, data, currentUser);
+  }
+
+
   @Get(':id')
   async findOne(
     @Param('id') id: string,
@@ -303,6 +368,7 @@ export class UsersController {
     const result = await this.usersService.findOne(+id, currentUser);
     return response.status(HttpStatus.OK).json(result)
   }
+
 
 
   @Patch(':id')

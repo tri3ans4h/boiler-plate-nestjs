@@ -8,14 +8,22 @@ import { QueryBuilderService } from 'src/query-builder/query-builder.service';
 import { Querybuilder } from 'nestjs-prisma-querybuilder';
 import { MinioClientService } from 'src/minio-client/minio-client.service';
 import { MinioClientModule } from 'src/minio-client/minio-client.module';
+import { UpdateUsersProfileUseCase } from 'src/users-profile/use-cases/update-story.usecase';
+import { UsersProfileModule } from 'src/users-profile/users-profile.module';
 
 @Module({
   imports: [
-    MinioClientModule
+    MinioClientModule,
+    UsersProfileModule
   ],
   controllers: [UsersController],
-  providers: [UsersService, PrismaService, JwtService, AbilitiesFactory, QueryBuilderService, Querybuilder,
-
+  providers: [
+    UsersService,
+    PrismaService,
+    JwtService,
+    AbilitiesFactory,
+    QueryBuilderService,
+    Querybuilder,
   ],
   exports: [UsersService]
 })

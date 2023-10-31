@@ -12,6 +12,9 @@ import { QueryBuilderService } from './query-builder/query-builder.service';
 import { MinioClientModule } from './minio-client/minio-client.module';
 import { ConfigModule } from '@nestjs/config';
 import { ImageUploadModule } from './image-upload/image-upload.module';
+import { StoryModule } from './story/story.module';
+import { UsersProfileModule } from './users-profile/users-profile.module';
+import { UpdateUsersProfileUseCase } from './users-profile/use-cases/update-story.usecase';
 @Module({
   imports: [
     AuthModule,
@@ -20,6 +23,8 @@ import { ImageUploadModule } from './image-upload/image-upload.module';
     MinioClientModule,
     ConfigModule.forRoot({ isGlobal: true }),
     ImageUploadModule,
+    StoryModule,
+    UsersProfileModule
   ],
   controllers: [AppController],
   providers: [AppService, JwtService, UsersService, PrismaService, QueryBuilderService, Querybuilder],

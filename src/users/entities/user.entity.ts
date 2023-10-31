@@ -6,5 +6,5 @@ export class UserEntity {
     last_name: string;
     email: string;
     role_id: number;
-    org_id?:number
+    org_id?: number
 }
