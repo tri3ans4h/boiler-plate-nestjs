@@ -21,7 +21,7 @@ export class AuthService {
   ) { }
 
   async validateUser(dto: LoginDto) {
-    const user = await this.prisma.user.findUnique({ where: { email: dto.username  } });
+    const user = await this.prisma.user.findUnique({ where: { email: dto.username } });
     //console.log(user)
     if (user && (await compare(dto.password, user.password))) {
       const { password, ...result } = user;
@@ -92,6 +92,7 @@ export class AuthService {
       }
     })
 
+    await this.prisma.userActivity.create({ data: { user_id: user.id, userAgent: userAgent, activity: "login", deviceUniqueID: deviceUniqueID } })
 
 
     return {

@@ -1,12 +1,14 @@
 import { AbilityBuilder, PureAbility } from "@casl/ability";
 import { PrismaQuery, Subjects, createPrismaAbility } from "@casl/prisma";
 import { Injectable } from "@nestjs/common";
-import { Story, User } from "@prisma/client";
+import { Story, User, UserProfile } from "@prisma/client";
 import { TUserProfileDtoOutput } from "src/common/interface/userprofile.dto.output";
 import { UserEntity } from "src/users/entities/user.entity";
 
 type AppSubjects = 'all' | Subjects<{
-    User: User, UserProfile: TUserProfileDtoOutput,
+    User: User,
+    UserProfile: UserProfile,
+    UserProfileOld: TUserProfileDtoOutput,
     Story: Story
 }>
 type AppAbility = PureAbility<[string, AppSubjects], PrismaQuery>;
@@ -37,22 +39,33 @@ export class AbilitiesFactory {
                 can('update', 'User', { org_id: user.org_id })
                 cannot('update', 'User', { NOT: { org_id: user.org_id } }).because("Cannot update user outside organization");
 
-                can('read', 'UserProfile', { id: user.id })
-                cannot('read', 'UserProfile', { NOT: { id: user.id } }).because('Cannot read other profile')
+                can('read', 'UserProfileOld', { id: user.id })
+                cannot('read', 'UserProfileOld', { NOT: { id: user.id } }).because('Cannot read other profile')
 
                 can('manage', 'Story', { org_id: user.org_id })
                 cannot('manage', 'Story', { NOT: { org_id: user.org_id } }).because("Cannot manage story outside your organization");
+                cannot('read', 'Story', { NOT: { org_id: user.org_id } }).because("Cannot read story outside your organization");
+
+                can('manage', 'UserProfile',{ user_id: user.id })
+                can('read', 'UserProfile')
+
                 break;
             }
             case 3: { //USER
-                can('read', 'UserProfile', { id: user.id })
-                cannot('read', 'UserProfile', { NOT: { id: user.id } }).because('Cannot read other profile')
+                can('read', 'UserProfileOld', { id: user.id })
+                cannot('read', 'UserProfileOld', { NOT: { id: user.id } }).because('Cannot read other profile')
 
+                can('create', 'Story', { AND: { user_id: user.id, org_id: user.org_id } })
+                cannot('create', 'Story', { NOT: [{ org_id: user.org_id, user_id: user.id }] }).because('Cannot create data outside your organization and other`s user')
 
-                can('read', 'Story', { created_by: user.id })
-                can('update', 'Story', { created_by: user.id })
-                can('delete', 'Story', { created_by: user.id })
-                cannot('delete', 'Story', { NOT: [{ org_id: user.org_id, created_by: user.id }] }).because('Not your data and your org')
+                can('read', 'Story', { user_id: user.id })
+                //cannot('read', 'Story', { NOT: [{ org_id: user.org_id, user_id: user.id }] }).because('Cannot read data outside your organization and other`s user')
+
+                can('update', 'Story', { user_id: user.id })
+                cannot('update', 'Story', { NOT: [{ org_id: user.org_id, user_id: user.id }] }).because('Cannot update data outside your organization and other`s user')
+
+                can('delete', 'Story', { user_id: user.id })
+                cannot('delete', 'Story', { NOT: [{ org_id: user.org_id, user_id: user.id }] }).because('Not your data and your org')
                 break;
             }
         }

@@ -46,13 +46,13 @@ export class AuthController {
     response.cookie("refresh", result.refreshToken, {
       httpOnly: true,
       secure: false,
-      sameSite: 'none',
+      sameSite: 'lax',
       maxAge: 24 * 60 * 60 * 1000
     });
     response.cookie("access", result.accessToken, {
       httpOnly: true,
       secure: false,
-      sameSite: 'none',
+      sameSite: 'lax',
       maxAge: 24 * 60 * 60 * 1000
     });
 
@@ -61,8 +61,7 @@ export class AuthController {
   @Post('logout')
   async logout(
     @Req() request: Request,
-    @Res() response: Response,
-    @Body() dto: LoginDto) {
+    @Res() response: Response,) {
     //let result = await this.authService.login(dto);
     const result = await this.authService.logout(request);
     response.clearCookie("refresh")

@@ -5,13 +5,12 @@ import { JwtService } from "@nestjs/jwt";
 import { PrismaService } from "src/prisma/prisma.service";
 import { UsersService } from "src/users/users.service";
 import { AbilitiesModule } from "src/casl/abilities.module";
-import { MinioClientService } from "src/minio-client/minio-client.service";
 import { MinioClientModule } from "src/minio-client/minio-client.module";
+import { UsersProfileModule } from "src/users-profile/users-profile.module";
 
 @Module({
     controllers: [AuthController],
-    providers: [
-        AuthService, UsersService, PrismaService, JwtService],
-    imports: [AbilitiesModule,MinioClientModule]
+    providers: [AuthService, UsersService, PrismaService, JwtService],
+    imports: [AbilitiesModule, MinioClientModule,UsersProfileModule]
 })
 export class AuthModule { }
