@@ -487,7 +487,7 @@ export class UsersService {
 
       let userActivity = await this.prisma.userActivity.findFirst({ where: { AND: [{ user_id: currentUser.id }, { activity: 'change password' }] }, orderBy: { created_at: 'desc' } })
       // result.securityUserActivity = userActivity
-      let response = { ...result, ...{ securityUserActivity: {lastChangePassword:userActivity.created_at} } }
+      let response = { ...result, ...{ securityUserActivity: {lastChangePassword:userActivity?.created_at} } }
      return response
     } catch (error) {
       console.log(error)
